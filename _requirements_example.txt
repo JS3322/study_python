@@ -2,3 +2,18 @@ pandas
 scikit-learn
 jupyterlab
 numpy
+
+#pip install -r requirements.txt
+#C:\Python39\python.exe -m pip install --update pip
+
+#install list
+pymongo
+pyyaml
+langchain[llms]
+# langChain X mongodb Atlas
+transformers
+torch
+wikipedia
+fastapi
+pandasai
+ollama
