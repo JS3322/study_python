@@ -17,3 +17,6 @@ wikipedia
 fastapi
 pandasai
 ollama
+
+# connect oracle :: python-oracledb/ cx_Oracle
+cx_Oracle

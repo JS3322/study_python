@@ -16,6 +16,6 @@ class readMongodb:
 		db = client['test']
 		collection = db['TEST_COLLECTION']
 		pipeline = [{'$match':{'MetadataLocal.ProductName':'EC2'}}]
-		result = collection.aggregate(pipeline)
+		results = collection.aggregate(pipeline)
 		for result in results:
 			print(result)
