@@ -31,3 +31,18 @@ String jsonString = "{ '$set': { 'Result.ResourceSvrDisk_SumValue': { " +
     "} }";
 
 Document update = Document.parse(jsonString);
+
+import com.mongodb.client.MongoCollection;
+import org.bson.Document;
+
+MongoCollection<Document> collection = mongoClient.getDatabase("yourDatabaseName").getCollection("yourCollectionName");
+
+Document query = new Document("MetadataLocal.ProductCode", "Compute-Server-AWS-EC2");
+Document update = new Document("$set", new Document("Result.ResourceSvrDisk_SumValue", 
+                new Document("$cond", new Document("if", new Document("$isArray", "$Resource.data.disks"))
+                .append("then", new Document("$reduce", new Document("input", "$Resource.data.disks")
+                .append("initialValue", 0)
+                .append("in", new Document("$add", Arrays.asList("$$value", "$$this.size")))))
+                .append("else", "$Resource.data.disks.size"))));
+
+collection.updateMany(query, update);
