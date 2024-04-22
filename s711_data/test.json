@@ -13,3 +13,21 @@ Document update = Document.parse(
     "} " +
     "} }"
 );
+
+
+
+String jsonString = "{ '$set': { 'Result.ResourceSvrDisk_SumValue': { " +
+    "'$cond': { " +
+    "   'if': { '$isArray': '$Resource.data.disks' }, " +
+    "   'then': { " +
+    "       '$reduce': { " +
+    "           'input': '$Resource.data.disks', " +
+    "           'initialValue': 0, " +
+    "           'in': { '$add': ['$$value', '$$this.size'] } " +
+    "       } " +
+    "   }, " +
+    "   'else': '$Resource.data.disks.size' " +
+    "} " +
+    "} }";
+
+Document update = Document.parse(jsonString);
