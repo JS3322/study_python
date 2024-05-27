@@ -13,10 +13,22 @@ langchain[llms]
 # langChain X mongodb Atlas
 transformers
 torch
+# 2024-01-24 fastAPI // pip install fastapi[all]
 wikipedia
 fastapi
 pandasai
+# 2024-04-16 ollama test
 ollama
+# seaborn
+# scikit-learn
 
 # connect oracle :: python-oracledb/ cx_Oracle
 cx_Oracle
+
+# use install list :: dev/prod
+# pandas
+# pyyaml
+# pymongo
+# fastapi
+# requests
+# uvicorn
