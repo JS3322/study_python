@@ -1,1 +1,29 @@
-FROM
+# python version
+FROM harbor.rancher.cleancode.kr/library/python:3.10.13-slim as builder
+
+WORKDIR /app
+
+# env lib
+#RUN apt-get update && \
+#		apt-get install -y curl && \
+#		rm -rf /var/lib/apt/lists/*
+
+# pip 설정파일
+RUN mkdir -p /root/.config/pip
+RUN echo "[global]\n\
+	index-url = http://repo.cleancode.kr/artifactory/api/pypi/pypi-remote/simple\n\
+	trusted-host = repo.cleancode.kr" > \
+	/root/.config/pip/pip.conf
+
+RUN pip install --upgrade pip
+
+COPY . /app
+
+#COPY requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+EXPOSE 8000
+CMD ["python", "main_cleancode_v1.py"]
+# OS에서 uvicorn 관리/ loggin 정보가 docker에 직접 통합가능
+#CMD ["uvicorn", "main:app", "--host", "127.0.0.1", "--port", "8000"]
+#CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
