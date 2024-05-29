@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                {{ toYaml .Values.memoryCondition | indent 16 }}
+      containers:
+      - name: {{ .Release.Name }}
+        image: your-image
+        resources:
+          requests:
+            memory: "4Gi"
+          limits:
+            memory: "6Gi"
