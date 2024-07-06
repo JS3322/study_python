@@ -9,21 +9,23 @@ numpy
 #install list
 pymongo
 pyyaml
-langchain[llms]
+# langchain[llms]
 # langChain X mongodb Atlas
-transformers
-torch
+# transformers
+# torch
 # 2024-01-24 fastAPI // pip install fastapi[all]
-wikipedia
+# wikipedia
 fastapi
-pandasai
+# pandasai
 # 2024-04-16 ollama test
-ollama
+# ollama
 # seaborn
 # scikit-learn
+# 2024-06-29
+# tensorflow
 
 # connect oracle :: python-oracledb/ cx_Oracle
-cx_Oracle
+# cx_Oracle
 
 # use install list :: dev/prod
 # pandas
@@ -31,4 +33,4 @@ cx_Oracle
 # pymongo
 # fastapi
 # requests
-# uvicorn
+uvicorn
