@@ -1,3 +1,8 @@
+# 1. 권한 부여 
+# chmod +x ~/project/fast_api_example/run_app.sh
+# 2. 파일 실행
+# ~/project/fast_api_example/run_app.sh
+
 #!/bin/bash
 
 # 프로젝트 디렉토리로 이동
