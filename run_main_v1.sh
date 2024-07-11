@@ -5,6 +5,14 @@
 
 #!/bin/bash
 
+# Python 3.10이 설치되어 있는지 확인하고, 설치되지 않은 경우 설치
+if ! command -v python3.10 &> /dev/null
+then
+    echo "Python 3.10 not found. Installing Python 3.10..."
+    sudo apt update
+    sudo apt install -y python3.10
+fi
+
 # 프로젝트 디렉토리로 이동
 cd ~/project/fast_api_example/
 
