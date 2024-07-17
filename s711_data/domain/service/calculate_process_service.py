@@ -5,6 +5,7 @@ async def execute_compute_process():
     tasks = [compute_square(i) for i in range(1,21)]
     # asyncio.gather(*tasks)는 주어진 비동기 작업을 리스트 병렬로 실행한 것을 모든 작업이 완료될 때까지 기다림
     # 각 작업이 완료 된 후 gather에 순서대로 반환하여 순서 보장
+    # * : 여러개의 인자를 함수에 전달하는 표현식이며, tasks의 배열인자를 분해해서 전달
     results = await asyncio.gather(*tasks)
     print(f"Results: {results}")
     
