@@ -18,6 +18,7 @@ async def compute_square(x):
     print(f"square of {x} is {result}")
     return result
     
+# yield = 비동기 return 값
 def generator_example():
     print('generator start')
     yield 1
