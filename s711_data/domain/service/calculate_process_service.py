@@ -1,4 +1,7 @@
 import asyncio
+import random
+from multiprocessing import Pool, cpu_count
+import threading
 
 async def execute_compute_process():
     
@@ -25,6 +28,38 @@ def generator_example():
     print('yielded 1')
     yield 2
     print('yielded 2')
+    
+# 멀티 프로세싱 자원 할당 예시
+def long_time_task_example():
+    data = range(100000)
+    num_cores = cpu_count()
+    chunks = [data:[i:4] for i in range(4)]
+    # 4개의 프로세스 풀 생성 :: 시스템에 몇 개의 cpu 코어가 있는 경우 Pool(4)에 의해 생성됨
+    # 각 프로세스는 cup 코어 중 하나를 사용 (process 갯수가 적으면 각 cup코어에 미 할당)
+    with Pool(4) as p:
+    	results = p.map(my_task_use_process, chunks)
+        
+def my_task_use_process(data_chunk):
+    # 복잡 계산 example
+    result = sum(data_chunk)
+    return result
+    
+# 멀티 쓰레딩 자원 할당 예시 (python은 싱글 스레드(GIL)이므로 간략 코드에 의미 없음
+def long_time_task_example():
+    thread = []
+    for i in range(4):
+        # 전체 범위를 4개의 부분으로 나누어 각 스레드에 할당
+        t = threading.Thread(target=my_task_use_thread(), args=(250000*i, 250000*(i+1)))
+        threads.append(t)
+        t.start()
+    for t in threads:
+        t.join()
+        
+def my_task_use_thread(start, end):
+    # 범위 내 숫자 합계 계산
+    result = sum(range(start, end))
+    print(f'Result: {result}')
+    return result
     
     
 import asyncio
