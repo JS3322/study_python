@@ -17,3 +17,10 @@ async def compute_square(x):
     await asyncio.sleep(1)
     print(f"square of {x} is {result}")
     return result
+    
+def generator_example():
+    print('generator start')
+    yield 1
+    print('yielded 1')
+    yield 2
+    print('yielded 2')
