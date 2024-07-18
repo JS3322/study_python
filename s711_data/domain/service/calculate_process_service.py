@@ -25,3 +25,45 @@ def generator_example():
     print('yielded 1')
     yield 2
     print('yielded 2')
+    
+    
+import asyncio
+import random
+
+# 작업을 시뮬레이션하는 함수
+async def task(name, duration):
+    print(f"Task {name} started, will take {duration:.2f} seconds")
+    await asyncio.sleep(duration)
+    print(f"Task {name} completed")
+
+# 제한 시간 내에 작업을 실행하거나 재스케줄링하는 함수
+async def execute_with_timeout(task_func, name, duration, timeout, queue):
+    try:
+        await asyncio.wait_for(task_func(name, duration), timeout)
+    except asyncio.TimeoutError:
+        print(f"Task {name} exceeded timeout of {timeout} seconds and was rescheduled")
+        # 후순위로 작업을 큐에 추가
+        await queue.put((3, task_func, name, duration))
+
+# 작업을 큐에 추가하는 함수
+async def add_tasks_to_queue(queue):
+    for i in range(10):
+        duration = random.uniform(0.5, 5.0)
+        priority = 1 if duration <= 2 else 2  # 간단한 우선순위 설정
+        await queue.put((priority, task, f"Task-{i+1}", duration))
+
+# 큐에서 작업을 처리하는 함수
+async def process_tasks(queue, timeout):
+    while not queue.empty():
+        priority, task_func, task_name, duration = await queue.get()
+        await execute_with_timeout(task_func, task_name, duration, timeout, queue)
+        queue.task_done()
+
+# 메인 함수
+async def main():
+    queue = asyncio.PriorityQueue()
+    await add_tasks_to_queue(queue)
+    await process_tasks(queue, timeout=2)
+
+if __name__ == "__main__":
+    asyncio.run(main())
