@@ -2,7 +2,7 @@ import time
 import inspect
 import logging
 
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s :::: $(name)s :::: %(levelname)s :::: %(message)s')
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s :::: %(levelname)s :::: %(message)s')
 logger = logging.getLogger(__name__)
 
 # 데코레이터를 호출하면 함수를 내부 함수로 시간을 측정하고 원래 함수의 결과 반환
@@ -32,7 +32,7 @@ def execution_time_decorator(func)
         # func.__name__ : 데코레이터가 적용된 함수
         # 4f : 소수점 4자리까지 포맷팅
         print(f"Execution time of{func.__name__}: {execution_time:.4f}seconds")
-        logger.debug(f"Execution time of {func.__name__}: {execution_time:.4f} seconds)
+        logger.debug(f" [func name] {func.__name__} [execution timed] {execution_time:.4f} seconds)
         # 원래 함수 반환
         return result
 	return wrapper        
