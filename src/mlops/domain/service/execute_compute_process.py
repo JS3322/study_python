@@ -9,4 +9,6 @@ async def execute_compute_process():
 async def compute_square(x):
     result = x * x
     await asyncio.sleep(1)
+    run_loop_info = asyncio.get_running_loop()
+    get_loop_info = asyncio.get_event_loop()
     return result
