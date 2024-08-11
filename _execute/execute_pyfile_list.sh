@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# 파이썬 가상환경 활성화
+source ../src/venv/bin/activate
+
 # 파이썬 파일들이 있는 디렉토리로 이동
 cd ../src/mlops/application/
 
