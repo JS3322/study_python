@@ -1,6 +1,7 @@
 import time
 import inspect
 import logging
+from functools import lru_cache
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s :::: %(levelname)s :::: %(message)s')
 logger = logging.getLogger(__name__)
@@ -35,4 +36,13 @@ def execution_time_decorator(func)
         logger.debug(f" [func name] {func.__name__} [execution timed] {execution_time:.4f} seconds)
         # 원래 함수 반환
         return result
-	return wrapper        
+	return wrapper
+
+@lru_cache(maxsize=128)  # maxsize는 캐시할 최대 항목 수를 설정
+def fibonacci(n):
+  if n < 2:
+    return n
+  return fibonacci(n-1) + fibonacci(n-2)
+
+print(fibonacci(10))  # 처음 계산
+print(fibonacci(10))  # 캐시된 결과를 사용
