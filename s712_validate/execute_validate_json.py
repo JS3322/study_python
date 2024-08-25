@@ -1,51 +1,23 @@
-import json
-import jsonschema
-from jsonschema import validate
+from pydantic import BaseModel, Field, HttpUrl, validator
+from typing import Dict, Any
 
-# JSON Schema
-schema = {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "User Project Schema",
-  "type": "object",
-  "properties": {
-    "id": {
-      "type": "string",
-      "description": "Unique identifier for the user",
-      "minLength": 1
-    },
-    "pw": {
-      "type": "string",
-      "description": "Password for the user",
-      "minLength": 8
-    },
-    "projectName": {
-      "type": "string",
-      "description": "Name of the project",
-      "minLength": 1
-    },
-    "githubUrl": {
-      "type": "string",
-      "description": "GitHub repository URL",
-      "format": "uri"
-    },
-    "hyperparameters": {
-      "type": "object",
-      "description": "Hyperparameters for the machine learning model",
-      "additionalProperties": {
-        "type": ["number", "string"]
-      }
-    },
-    "dataPath": {
-      "type": "string",
-      "description": "File path to the training data",
-      "minLength": 1
-    }
-  },
-  "required": ["id", "pw", "projectName", "githubUrl", "dataPath"],
-  "additionalProperties": false
-}
+# VO 클래스 정의 (pydantic을 사용하여 유효성 검사 포함)
+class UserProjectVO(BaseModel):
+  id: str = Field(..., min_length=1, description="Unique identifier for the user")
+  pw: str = Field(..., min_length=8, description="Password for the user")
+  projectName: str = Field(..., min_length=1, description="Name of the project")
+  githubUrl: HttpUrl = Field(..., description="GitHub repository URL")
+  hyperparameters: Dict[str, Any] = Field(default_factory=dict, description="Hyperparameters for the machine learning model")
+  dataPath: str = Field(..., min_length=1, description="File path to the training data")
 
-# Example JSON data
+  # 추가적인 유효성 검사가 필요한 경우, validator를 사용할 수 있습니다.
+  @validator('pw')
+  def password_strength(cls, v):
+    if len(v) < 8:
+      raise ValueError('Password must be at least 8 characters long')
+    return v
+
+# 예제 JSON 데이터 (dict 형태)
 data = {
   "id": "user123",
   "pw": "securePassword123",
@@ -58,9 +30,9 @@ data = {
   "dataPath": "/data/mymlproject/dataset.csv"
 }
 
-# Validate JSON data
+# VO 객체 생성 및 유효성 검사
 try:
-  validate(instance=data, schema=schema)
-  print("JSON data is valid.")
-except jsonschema.exceptions.ValidationError as err:
-  print("JSON data is invalid:", err.message)
+  user_project_vo = UserProjectVO(**data)
+  print("VO JSON data is valid.")
+except ValueError as e:
+  print("VO JSON data is invalid:", e)
